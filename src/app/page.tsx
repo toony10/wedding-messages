@@ -7,7 +7,7 @@ interface Message {
   message: string
 }
 
-function formatDate (dateStr: string) {
+function formatDate(dateStr: string) {
   const date = new Date(dateStr)
   const datePart = new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
@@ -22,12 +22,12 @@ function formatDate (dateStr: string) {
   return { datePart, timePart }
 }
 
-function MessageCard ({ msg }: { msg: Message }) {
+function MessageCard({ msg }: { msg: Message }) {
   const { datePart, timePart } = formatDate(msg.created_at)
 
   return (
     <article className="relative flex flex-col gap-4 rounded-2xl bg-white/70 backdrop-blur-sm border border-rose-100 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
-      {/* decorative quote mark */}
+      {/* decorative quote mark */ }
       <span
         aria-hidden="true"
         className="absolute top-4 right-5 text-6xl leading-none text-rose-100 font-serif select-none"
@@ -35,22 +35,22 @@ function MessageCard ({ msg }: { msg: Message }) {
         &ldquo;
       </span>
 
-      {/* avatar + name */}
+      {/* avatar + name */ }
       <div className="flex items-center gap-3">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-rose-400 to-pink-500 text-white font-semibold text-sm shadow-sm">
-          {msg.name.charAt(0).toUpperCase()}
+          { msg.name.charAt(0).toUpperCase() }
         </div>
         <span className="font-semibold text-rose-900 text-base leading-tight">
-          {msg.name}
+          { msg.name }
         </span>
       </div>
 
-      {/* message body */}
+      {/* message body */ }
       <p className="text-stone-700 leading-relaxed text-sm flex-1">
-        {msg.message}
+        { msg.message }
       </p>
 
-      {/* date + time */}
+      {/* date + time */ }
       <div className="flex items-center gap-1.5 text-xs text-stone-400 pt-2 border-t border-rose-50">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +69,7 @@ function MessageCard ({ msg }: { msg: Message }) {
           <line x1="8" y1="2" x2="8" y2="6" />
           <line x1="3" y1="10" x2="21" y2="10" />
         </svg>
-        <span>{datePart}</span>
+        <span>{ datePart }</span>
         <span className="mx-1 text-rose-200">·</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -86,13 +86,13 @@ function MessageCard ({ msg }: { msg: Message }) {
           <circle cx="12" cy="12" r="10" />
           <polyline points="12 6 12 12 16 14" />
         </svg>
-        <span>{timePart}</span>
+        <span>{ timePart }</span>
       </div>
     </article>
   )
 }
 
-export default async function Home () {
+export default async function Home() {
   const { data: messages, error } = await supabase
     .from('messages')
     .select('id, created_at, name, message')
@@ -100,7 +100,7 @@ export default async function Home () {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-rose-50 via-pink-50 to-amber-50">
-      {/* header */}
+      {/* header */ }
       <header className="px-6 pt-14 pb-10 text-center">
         <p className="text-rose-400 tracking-[0.25em] uppercase text-xs font-medium mb-3">
           Wedding Wishes
@@ -113,41 +113,41 @@ export default async function Home () {
           <span className="text-rose-300 text-lg" aria-hidden="true">♥</span>
           <div className="h-px w-16 bg-linear-to-l from-transparent to-rose-300" />
         </div>
-        {messages && (
+        { messages && (
           <p className="mt-4 text-stone-500 text-sm">
-            {messages.length} {messages.length === 1 ? 'message' : 'messages'} shared
+            { messages.length } { messages.length === 1 ? 'message' : 'messages' } shared
           </p>
-        )}
+        ) }
       </header>
 
       <main className="max-w-6xl mx-auto px-4 pb-16 sm:px-6 lg:px-8">
-        {error && (
+        { error && (
           <div className="text-center py-20">
             <p className="text-red-500 text-sm">
               Could not load messages. Please try again later.
             </p>
           </div>
-        )}
+        ) }
 
-        {!error && messages && messages.length === 0 && (
+        { !error && messages && messages.length === 0 && (
           <div className="text-center py-20">
             <span className="text-5xl" aria-hidden="true">💌</span>
             <p className="mt-4 text-stone-500">No messages yet. Be the first to wish them well!</p>
           </div>
-        )}
+        ) }
 
-        {!error && messages && messages.length > 0 && (
+        { !error && messages && messages.length > 0 && (
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-5 space-y-5">
-            {messages.map((msg) => (
-              <div key={msg.id} className="break-inside-avoid">
-                <MessageCard msg={msg} />
+            { messages.map((msg: Message) => (
+              <div key={ msg.id } className="break-inside-avoid">
+                <MessageCard msg={ msg } />
               </div>
-            ))}
+            )) }
           </div>
-        )}
+        ) }
       </main>
 
-      {/* footer */}
+      {/* footer */ }
       <footer className="text-center pb-10 text-xs text-stone-400">
         <span aria-hidden="true">✦</span>
         <span className="mx-2">Made with love</span>
